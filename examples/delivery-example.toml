@@ -1,0 +1,15 @@
+[delivery]
+title = "Example WAV delivery"
+requirements_basis = "Provisional local contract - confirm with recipient."
+
+[format]
+sample_rate_hz = 48000
+bit_depth = 24
+channels = 2
+
+[assets]
+expected_files = ["01-opening.wav", "02-closing.wav"]
+
+[limits]
+max_sample_peak_dbfs = -1.0
+reject_full_scale_samples = true
