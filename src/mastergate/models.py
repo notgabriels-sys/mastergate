@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from pathlib import Path
 
 
 @dataclass(frozen=True)
@@ -38,3 +39,33 @@ class DeliveryContract:
     audio_format: AudioFormat
     expected_files: tuple[str, ...]
     limits: Limits
+
+
+@dataclass(frozen=True)
+class WavMeasurement:
+    """Facts measured from one readable integer PCM WAV file."""
+
+    path: Path
+    byte_size: int
+    sha256: str
+    sample_rate_hz: int
+    bit_depth: int
+    channels: int
+    frame_count: int
+    duration_seconds: float
+    sample_peak_dbfs: float | None
+    full_scale_sample_count: int
+
+
+@dataclass(frozen=True)
+class BatchCheck:
+    """Declared file-check result, not a complete delivery approval."""
+
+    contract: DeliveryContract
+    input_directory: Path
+    measurements: tuple[WavMeasurement, ...]
+    errors: tuple[str, ...] = ()
+
+    @property
+    def is_passed(self) -> bool:
+        return not self.errors
