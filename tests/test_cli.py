@@ -58,6 +58,7 @@ def test_build_creates_evidence_only_after_a_passing_file_check(
     assert captured.err == ""
     assert captured.out == f"Built Mastergate evidence files: {output}\n"
     assert (output / "MASTERGATE_REPORT.md").is_file()
+    assert (output / "MASTERGATE_EVIDENCE.html").is_file()
     assert (output / "manifest.json").is_file()
     assert (output / "checksums.sha256").is_file()
 

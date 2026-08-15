@@ -8,7 +8,12 @@ import shutil
 import tempfile
 
 from .models import BatchCheck
-from .render import render_checksums, render_manifest, render_report
+from .render import (
+    render_checksums,
+    render_evidence_html,
+    render_manifest,
+    render_report,
+)
 
 
 class DeclaredFileCheckFailedError(ValueError):
@@ -50,10 +55,18 @@ def build_evidence_files(
     temporary_path = Path(
         tempfile.mkdtemp(prefix=f".{output_path.name}.", dir=output_path.parent)
     )
-    filenames = ("MASTERGATE_REPORT.md", "checksums.sha256", "manifest.json")
+    filenames = (
+        "MASTERGATE_REPORT.md",
+        "MASTERGATE_EVIDENCE.html",
+        "checksums.sha256",
+        "manifest.json",
+    )
     try:
         (temporary_path / "MASTERGATE_REPORT.md").write_text(
             render_report(batch), encoding="utf-8"
+        )
+        (temporary_path / "MASTERGATE_EVIDENCE.html").write_text(
+            render_evidence_html(batch), encoding="utf-8"
         )
         (temporary_path / "checksums.sha256").write_text(
             render_checksums(batch), encoding="utf-8"

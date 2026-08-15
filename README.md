@@ -61,8 +61,14 @@ mastergate build examples/delivery-example.toml ./masters --output ./delivery/ma
 When a declared check passes, the build writes:
 
 - `MASTERGATE_REPORT.md` - a readable measured-file report and QC boundary.
+- `MASTERGATE_EVIDENCE.html` - a self-contained offline browser brief of the
+  measured file facts and explicit QC boundary.
 - `manifest.json` - contract, measurements, findings, and file-level state.
 - `checksums.sha256` - checksums for the measured WAV files.
+
+The HTML brief is generated locally with no scripts, remote assets, or source
+media. It is a file-level review surface, not a certificate, approval,
+recipient receipt, or release-compliance result.
 
 When the batch fails, `check` exits with status `1`; `build` leaves no output
 directory. Invalid contracts and unsafe attempts to overwrite output exit with

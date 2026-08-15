@@ -37,6 +37,7 @@ def test_build_evidence_files_writes_portable_report_manifest_and_checksums(
     assert result.output == output
     assert [path.name for path in result.files] == [
         "MASTERGATE_REPORT.md",
+        "MASTERGATE_EVIDENCE.html",
         "checksums.sha256",
         "manifest.json",
     ]
@@ -46,6 +47,11 @@ def test_build_evidence_files_writes_portable_report_manifest_and_checksums(
     assert "DECLARED FILE CHECKS PASSED" in report
     assert "RENDERED - QC INCOMPLETE" in report
     assert "not a true-peak, loudness, listening, source-integrity, upload, or recipient-acceptance verification" in report
+
+    evidence_html = (output / "MASTERGATE_EVIDENCE.html").read_text(encoding="utf-8")
+    assert "DECLARED FILE CHECKS PASSED" in evidence_html
+    assert "RENDERED - QC INCOMPLETE" in evidence_html
+    assert "01-opening.wav" in evidence_html
 
     manifest = json.loads((output / "manifest.json").read_text(encoding="utf-8"))
     assert manifest["schema_version"] == 1
